@@ -1,0 +1,449 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Executive Dark Carbon Palette */
+  --bg-app: #08090b;
+  --bg-surface: #111215;
+  --bg-surface-raised: #18191e;
+  --bg-surface-hover: #222329;
+  --bg-surface-active: #2a2b33;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --border-focus: #52525b;
+
+  --text-pure: #ffffff;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-disabled: #52525b;
+
+  /* Semantic Accents */
+  --accent-gold: #d97706;
+  --accent-gold-light: #fbbf24;
+  --accent-emerald: #10b981;
+  --accent-rose: #ef4444;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 24px 48px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Reset & Global Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Sleek Dark Scrollbars (No White OS Scrollbars) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) var(--bg-surface);
+}
+
+html {
+  font-size: 15px;
+  scroll-behavior: smooth;
+  background-color: var(--bg-app);
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--text-pure);
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'zero' 1;
+}
+
+/* Global Form Elements */
+input, select, textarea {
+  background-color: var(--bg-surface-raised);
+  color: var(--text-pure);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #52525b;
+  outline: none;
+}
+
+.clean-search-input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: #ffffff !important;
+  font-size: 0.78rem !important;
+  width: 100% !important;
+}
+
+.clean-search-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Fluid Responsive Container */
+.app-container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: 0 28px;
+  }
+}
+
+/* Executive Cards */
+.vibe-card, .clean-card, .modern-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .vibe-card, .clean-card, .modern-card {
+    padding: 22px;
+  }
+}
+
+.vibe-card:hover, .clean-card:hover, .modern-card:hover {
+  border-color: var(--border-medium);
+}
+
+.vibe-card-raised, .clean-card-elevated, .modern-card-raised {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+/* Grids & Layouts */
+.vibe-grid-auto, .clean-grid-auto, .modern-grid-auto {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .vibe-grid-auto, .clean-grid-auto, .modern-grid-auto {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+}
+
+.vibe-split-layout, .clean-split-layout, .modern-split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .vibe-split-layout, .clean-split-layout, .modern-split-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+/* Executive Buttons - NO CHEAP BLUE */
+.vibe-btn, .clean-btn, .modern-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 15px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-decoration: none;
+  user-select: none;
+  min-height: 35px;
+  line-height: 1;
+}
+
+.vibe-btn:active, .clean-btn:active, .modern-btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary Action Button: Solid Crisp White */
+.vibe-btn-primary, .clean-btn-primary, .modern-btn-primary {
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.vibe-btn-primary:hover, .clean-btn-primary:hover, .modern-btn-primary:hover {
+  background: #e4e4e7 !important;
+  color: #000000 !important;
+}
+
+/* Secondary Button: Refined Dark Obsidian Slate */
+.vibe-btn-secondary, .clean-btn-secondary, .modern-btn-secondary {
+  background: #18191e !important;
+  border: 1px solid var(--border-medium) !important;
+  color: #f4f4f5 !important;
+}
+
+.vibe-btn-secondary:hover, .clean-btn-secondary:hover, .modern-btn-secondary:hover {
+  background: #27272a !important;
+  border-color: var(--border-strong) !important;
+  color: #ffffff !important;
+}
+
+/* Success Button: Emerald Green */
+.vibe-btn-success, .clean-btn-success, .btn-emerald {
+  background: #059669 !important;
+  border: 1px solid #10b981 !important;
+  color: #ffffff !important;
+}
+
+.vibe-btn-success:hover, .clean-btn-success:hover, .btn-emerald:hover {
+  background: #047857 !important;
+  color: #ffffff !important;
+}
+
+/* Danger Button: Crimson Red */
+.vibe-btn-danger, .clean-btn-danger, .modern-btn-danger, .btn-rose {
+  background: #dc2626 !important;
+  border: 1px solid #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.vibe-btn-danger:hover, .clean-btn-danger:hover, .modern-btn-danger:hover, .btn-rose:hover {
+  background: #b91c1c !important;
+  color: #ffffff !important;
+}
+
+/* Gmail Button: Google Red */
+.vibe-btn-gmail, .btn-gmail {
+  background: #ea4335 !important;
+  border: 1px solid #ef5350 !important;
+  color: #ffffff !important;
+}
+
+.vibe-btn-gmail:hover, .btn-gmail:hover {
+  background: #d93025 !important;
+  color: #ffffff !important;
+}
+
+/* Amber Button: Warm Gold */
+.vibe-btn-amber, .btn-amber {
+  background: #d97706 !important;
+  border: 1px solid #f59e0b !important;
+  color: #ffffff !important;
+}
+
+.vibe-btn-amber:hover, .btn-amber:hover {
+  background: #b45309 !important;
+  color: #ffffff !important;
+}
+
+.vibe-btn-sm, .clean-btn-sm, .modern-btn-sm {
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  min-height: 28px;
+  border-radius: var(--radius-xs);
+}
+
+/* Badges */
+.vibe-badge, .clean-badge, .modern-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-rose {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-amber, .badge-gold {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e4e4e7;
+  border: 1px solid var(--border-medium);
+}
+
+/* Form Controls */
+.vibe-form-group, .clean-form-group, .modern-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.vibe-label, .clean-label, .modern-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.vibe-input, .clean-input, .modern-input, 
+.vibe-select, .clean-select, .modern-select, 
+.vibe-textarea, .clean-textarea, .modern-textarea {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-pure);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  transition: border-color 0.15s ease;
+  outline: none;
+}
+
+.vibe-input:focus, .clean-input:focus, .modern-input:focus,
+.vibe-select:focus, .clean-select:focus, .modern-select:focus,
+.vibe-textarea:focus, .clean-textarea:focus, .modern-textarea:focus {
+  border-color: #52525b;
+  background: var(--bg-surface-hover);
+}
+
+/* Pass Card Geometry */
+.ticket-wrapper {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.ticket-body {
+  position: relative;
+  width: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-header-strip {
+  height: 3px;
+  width: 100%;
+  background: #ffffff;
+}
+
+.ticket-body canvas {
+  width: 105px !important;
+  height: 105px !important;
+  max-width: 105px !important;
+  max-height: 105px !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vibe-fade-in, .modern-fade-in {
+  animation: fadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Status Indicator Dot */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot-green {
+  background: var(--accent-emerald);
+}
+
+.status-dot-red {
+  background: var(--accent-rose);
+}
