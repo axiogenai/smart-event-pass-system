@@ -14,11 +14,16 @@ import {
   IdCard,
   UserCheck,
   Send,
-  Ticket
+  Ticket,
+  ArrowRight
 } from 'lucide-react';
 
-export const RegistrationForm: React.FC = () => {
-  const { currentEvent, registerStudent, passes, setPersona } = useEventContext();
+interface RegistrationFormProps {
+  onSuccess?: (pass: EventPass) => void;
+}
+
+export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
+  const { currentEvent, registerStudent, passes, setCurrentPass } = useEventContext();
 
   const [formData, setFormData] = useState<StudentRegistration>({
     fullName: '',
@@ -41,6 +46,11 @@ export const RegistrationForm: React.FC = () => {
   const registeredCount = passes.filter(p => p.eventId === currentEvent.id).length;
   const capacityLeft = Math.max(0, currentEvent.capacity - registeredCount);
   const isSoldOut = capacityLeft <= 0;
+
+  const departmentOptions = currentEvent.allowedDepartments.map(d => ({
+    value: d,
+    label: d
+  }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,13 +84,20 @@ export const RegistrationForm: React.FC = () => {
         setError(res.error || 'Registration failed.');
       } else {
         setIssuedPass(res.pass);
+        setCurrentPass(res.pass);
         confetti({
-          particleCount: 60,
-          spread: 70,
+          particleCount: 70,
+          spread: 80,
           origin: { y: 0.6 }
         });
       }
     }, 300);
+  };
+
+  const handleNavigateToPass = () => {
+    if (issuedPass && onSuccess) {
+      onSuccess(issuedPass);
+    }
   };
 
   return (
@@ -136,20 +153,23 @@ export const RegistrationForm: React.FC = () => {
 
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setShowEmailModal(true)}
+              type="button"
+              onClick={handleNavigateToPass}
               className="vibe-btn vibe-btn-primary vibe-btn-sm"
-              style={{ background: '#ea4335', borderColor: '#ea4335' }}
-            >
-              <Mail size={13} />
-              <span>Send to Student Gmail</span>
-            </button>
-
-            <button
-              onClick={() => setPersona('STUDENT_PORTAL')}
-              className="vibe-btn vibe-btn-secondary vibe-btn-sm"
+              style={{ flex: 1 }}
             >
               <Ticket size={13} />
               <span>View Digital Pass</span>
+              <ArrowRight size={13} />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowEmailModal(true)}
+              className="vibe-btn vibe-btn-gmail vibe-btn-sm"
+            >
+              <Mail size={13} />
+              <span>Send to Gmail</span>
             </button>
           </div>
         </div>
@@ -168,13 +188,13 @@ export const RegistrationForm: React.FC = () => {
           />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           <div className="vibe-form-group">
             <label className="vibe-label">Student ID / Roll No *</label>
             <input
               type="text"
               className="vibe-input mono"
-              placeholder="e.g. STU-10492"
+              placeholder="e.g. STU-99214"
               value={formData.studentId}
               onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
               required
@@ -184,14 +204,7 @@ export const RegistrationForm: React.FC = () => {
           <div className="vibe-form-group">
             <label className="vibe-label">Department *</label>
             <CustomDropdown
-              options={[
-                { value: 'Computer Science', label: 'Computer Science' },
-                { value: 'Electrical Engineering', label: 'Electrical Engineering' },
-                { value: 'Mechanical Engineering', label: 'Mechanical Engineering' },
-                { value: 'Business Administration', label: 'Business Administration' },
-                { value: 'Design & Media', label: 'Design & Media' },
-                { value: 'Biotechnology', label: 'Biotechnology' },
-              ]}
+              options={departmentOptions}
               value={formData.department}
               onChange={(val) => setFormData({ ...formData, department: val })}
               width="100%"
@@ -199,7 +212,7 @@ export const RegistrationForm: React.FC = () => {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           <div className="vibe-form-group">
             <label className="vibe-label">Gmail / University Email *</label>
             <input
@@ -217,7 +230,7 @@ export const RegistrationForm: React.FC = () => {
             <input
               type="tel"
               className="vibe-input"
-              placeholder="+1 (555) 019-2834"
+              placeholder="+1 (555) 000-0000"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required
@@ -240,14 +253,14 @@ export const RegistrationForm: React.FC = () => {
           type="submit"
           disabled={isSubmitting || isSoldOut}
           className="vibe-btn vibe-btn-primary"
-          style={{ width: '100%', marginTop: '6px', padding: '10px' }}
+          style={{ width: '100%', marginTop: '6px', height: '40px', fontSize: '0.88rem' }}
         >
-          {isSubmitting ? 'Issuing Pass...' : isSoldOut ? 'Event Full' : 'Register & Issue Pass'}
+          {isSubmitting ? 'Registering & Generating HMAC Pass...' : isSoldOut ? 'Event Sold Out' : 'Register & Issue Pass'}
         </button>
       </form>
 
       {/* Gmail Modal */}
-      {showEmailModal && issuedPass && currentEvent && (
+      {showEmailModal && issuedPass && (
         <EmailPassModal
           pass={issuedPass}
           event={currentEvent}

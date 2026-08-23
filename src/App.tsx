@@ -111,7 +111,7 @@ const AppContent: React.FC = () => {
               {studentTab === 'WALLET' ? (
                 <PassWallet onRegisterClick={() => setStudentTab('REGISTER')} />
               ) : (
-                <RegistrationForm />
+                <RegistrationForm onSuccess={() => setStudentTab('WALLET')} />
               )}
             </div>
           )}
