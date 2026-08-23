@@ -90,8 +90,14 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
           spread: 80,
           origin: { y: 0.6 }
         });
+        // Auto-navigate to Pass Wallet after short celebration delay
+        setTimeout(() => {
+          if (onSuccess) {
+            onSuccess(res.pass);
+          }
+        }, 500);
       }
-    }, 300);
+    }, 200);
   };
 
   const handleNavigateToPass = () => {
